@@ -1,86 +1,63 @@
+<?php
+/**
+ * ZoomBlog functions and definitions — bootstrap.
+ *
+ * This file only wires the theme together. Real logic lives in /inc.
+ * Everything is namespaced with the `zoomblog_` prefix and the `zoomblog`
+ * text domain.
+ *
+ * @package ZoomBlog
+ */
 
-&lt;?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 define( 'ZOOMBLOG_VERSION', '1.0.0' );
 define( 'ZOOMBLOG_DIR', get_template_directory() );
 define( 'ZOOMBLOG_URI', get_template_directory_uri() );
+define( 'ZOOMBLOG_INC', ZOOMBLOG_DIR . '/inc' );
 
-// Enqueue scripts and styles
-function zoomblog_enqueue_scripts() {
-	// Main stylesheet
-	wp_enqueue_style( 'zoomblog-style', get_stylesheet_uri(), array(), ZOOMBLOG_VERSION );
-	
-	// Theme main styles
-	wp_enqueue_style( 'zoomblog-main', ZOOMBLOG_URI . '/assets/css/main.css', array(), ZOOMBLOG_VERSION );
-	
-	// Main script
-	wp_enqueue_script( 'zoomblog-script', ZOOMBLOG_URI . '/assets/js/main.js', array(), ZOOMBLOG_VERSION, true );
-	
-	// Localize script
-	wp_localize_script( 'zoomblog-script', 'zoomblogData', array(
-		'ajaxUrl' =&gt; admin_url( 'admin-ajax.php' ),
-		'nonce' =&gt; wp_create_nonce( 'zoomblog_nonce' ),
-	) );
-}
-add_action( 'wp_enqueue_scripts', 'zoomblog_enqueue_scripts' );
-
-// Theme setup
-function zoomblog_setup() {
-	// Text domain
-	load_theme_textdomain( 'zoomblog', ZOOMBLOG_DIR . '/languages' );
-	
-	// Title tag
-	add_theme_support( 'title-tag' );
-	
-	// Post thumbnails
-	add_theme_support( 'post-thumbnails' );
-	
-	// Menus
-	register_nav_menus( array(
-		'primary' =&gt; __( 'Primary Menu', 'zoomblog' ),
-		'footer' =&gt; __( 'Footer Menu', 'zoomblog' ),
-	) );
-	
-	// HTML5 support
-	add_theme_support( 'html5', array(
-		'comment-form',
-		'comment-list',
-		'gallery',
-		'caption',
-	) );
-}
-add_action( 'after_setup_theme', 'zoomblog_setup' );
-
-// Include required files
-require_once ZOOMBLOG_DIR . '/inc/helpers.php';
-require_once ZOOMBLOG_DIR . '/inc/customizer.php';
-require_once ZOOMBLOG_DIR . '/inc/elementor-compatibility.php';
-
-// AJAX handler for reading history
-add_action( 'wp_ajax_nopriv_zoomblog_get_reading_history', 'zoomblog_get_reading_history_callback' );
-add_action( 'wp_ajax_zoomblog_get_reading_history', 'zoomblog_get_reading_history_callback' );
-
-function zoomblog_get_reading_history_callback() {
-	check_ajax_referer( 'zoomblog_nonce', 'nonce' );
-	
-	$post_ids = isset( $_POST['post_ids'] ) ? array_map( 'intval', json_decode( $_POST['post_ids'] ) ) : array();
-	
-	$html = zoomblog_get_reading_history_html( $post_ids );
-	
-	wp_send_json_success( array( 'html' =&gt; $html ) );
+/**
+ * Require a theme include once, safely.
+ *
+ * @param string $rel Relative path inside the theme (no leading slash).
+ */
+function zoomblog_require( $rel ) {
+	$path = ZOOMBLOG_DIR . '/' . ltrim( $rel, '/' );
+	if ( is_readable( $path ) ) {
+		require_once $path;
+	}
 }
 
-// AJAX handler for getting bookmarks
-add_action( 'wp_ajax_nopriv_zoomblog_get_bookmarks', 'zoomblog_get_bookmarks_callback' );
-add_action( 'wp_ajax_zoomblog_get_bookmarks', 'zoomblog_get_bookmarks_callback' );
+/*
+ * Core (always loaded — kept small and fast).
+ */
+zoomblog_require( 'inc/options.php' );        // Central settings store + defaults.
+zoomblog_require( 'inc/setup.php' );          // Theme supports, menus, image sizes.
+zoomblog_require( 'inc/enqueue.php' );         // Conditional asset + font loading.
+zoomblog_require( 'inc/persian.php' );        // ی/ک unify, half-space, near-word.
+zoomblog_require( 'inc/jalali.php' );         // Gregorian → Jalali converter.
+zoomblog_require( 'inc/helpers.php' );        // Reading time, dates, small utils.
+zoomblog_require( 'inc/template-tags.php' );  // Breadcrumb, meta, trust badge, cards.
+zoomblog_require( 'inc/interactions.php' );   // Like / view / bookmark / follow AJAX.
+zoomblog_require( 'inc/cpt.php' );            // Optional custom post types.
+zoomblog_require( 'inc/seo.php' );            // Yoast / Rank Math aware SEO + schema.
+zoomblog_require( 'inc/paywall.php' );        // Lightweight paywall gate.
 
-function zoomblog_get_bookmarks_callback() {
-	check_ajax_referer( 'zoomblog_nonce', 'nonce' );
-	
-	$post_ids = isset( $_POST['post_ids'] ) ? array_map( 'intval', json_decode( $_POST['post_ids'] ) ) : array();
-	
-	$html = zoomblog_get_bookmarks_html( $post_ids );
-	
-	wp_send_json_success( array( 'html' =&gt; $html ) );
+/*
+ * Editor / builder integrations.
+ */
+zoomblog_require( 'inc/elementor.php' );      // Elementor + Elementor Pro locations.
+
+/*
+ * Admin-only (loaded only in wp-admin).
+ */
+if ( is_admin() ) {
+	zoomblog_require( 'inc/admin/settings-panel.php' );  // Searchable grouped settings.
+	zoomblog_require( 'inc/admin/post-sidebar.php' );    // Tidy per-post sidebar.
+	zoomblog_require( 'inc/admin/content-health.php' );  // Content health checker.
+	zoomblog_require( 'inc/admin/editorial.php' );       // Editorial statistics dashboard.
+	zoomblog_require( 'inc/admin/social-card.php' );     // Social card generator.
+	zoomblog_require( 'inc/admin/setup-wizard.php' );    // 6-step install wizard.
 }

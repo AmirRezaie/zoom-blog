@@ -3,11 +3,43 @@ Theme Name: ZoomBlog
 Theme URI: https://example.com/zoomblog
 Author: ZoomBlog Team
 Author URI: https://example.com
-Description: A modern Persian WordPress blog theme inspired by Zoomit, with full RTL support, dark/light mode, Elementor compatibility, and much more.
+Description: A modern, lightweight Persian-first WordPress magazine & blog theme inspired by Zoomit. Full RTL, light/dark/sepia reading modes, Jalali dates, reading progress, table of contents, bookmarks & reading history, a premium reader control center, conditional asset loading, and full Elementor / Rank Math / Yoast compatibility.
 Version: 1.0.0
+Requires at least: 6.2
+Tested up to: 6.7
+Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: zoomblog
 Domain Path: /languages
-Tags: blog, news, magazine, custom-logo, custom-menu, featured-images, rtl-language-support, dark-mode
+Tags: blog, news, magazine, rtl-language-support, translation-ready, custom-logo, custom-menu, featured-images, editor-style, threaded-comments, block-styles, wide-blocks, accessibility-ready
+
+ZoomBlog is distributed under the terms of the GNU GPL v2 or later.
+
+The main stylesheets live in /assets/css and are loaded conditionally for
+performance (see inc/enqueue.php). This file mainly carries the theme header
+and a small critical fallback so the theme degrades gracefully if the
+component styles fail to load.
 */
+
+/* Minimal critical fallback only. Real styles: /assets/css/*.css */
+:root {
+	--zb-container: 1200px;
+}
+body {
+	margin: 0;
+	font-family: Vazirmatn, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	line-height: 1.85;
+}
+.zb-container {
+	max-width: var(--zb-container);
+	margin-inline: auto;
+	padding-inline: 20px;
+}
+.screen-reader-text {
+	position: absolute !important;
+	clip: rect(1px, 1px, 1px, 1px);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}

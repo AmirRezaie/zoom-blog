@@ -1,0 +1,24 @@
+/* =========================================================================
+   ZoomBlog — Mega menu (loaded only when a "mega" menu is assigned).
+   ========================================================================= */
+
+.zb-mega { position: static; }
+.zb-mega > .zb-mega__panel {
+	position: absolute; inset-inline: 0; margin-top: 8px; background: var(--zb-card);
+	border: 1px solid var(--zb-line); border-radius: var(--zb-radius); box-shadow: var(--zb-shadow-hover);
+	padding: 24px; opacity: 0; visibility: hidden; transform: translateY(8px); transition: all var(--zb-transition); z-index: 70;
+}
+.zb-header__bar { position: relative; }
+.zb-mega:hover > .zb-mega__panel, .zb-mega:focus-within > .zb-mega__panel { opacity: 1; visibility: visible; transform: translateY(0); }
+.zb-mega__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.zb-mega__col h4 { font-size: 0.95rem; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--zb-line); }
+.zb-mega__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.zb-mega__col a { color: var(--zb-body); font-size: 0.9rem; padding: 4px 0; }
+.zb-mega__col a:hover { color: var(--zb-accent); }
+.zb-mega__feature { grid-column: span 1; border-radius: var(--zb-radius-sm); overflow: hidden; position: relative; }
+.zb-mega__feature img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 860px) {
+	.zb-mega > .zb-mega__panel { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; border: 0; padding: 0; }
+	.zb-mega__grid { grid-template-columns: 1fr; }
+}

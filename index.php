@@ -1,33 +1,33 @@
+<?php
+/**
+ * Fallback archive / blog index.
+ *
+ * @package ZoomBlog
+ */
 
-&lt;?php get_header(); ?&gt;
-
-&lt;div class="container"&gt;
-	&lt;?php if ( have_posts() ) : ?&gt;
-		&lt;div class="posts-grid"&gt;
-			&lt;?php while ( have_posts() ) : the_post(); ?&gt;
-				&lt;article id="post-&lt;?php the_ID(); ?&gt;" &lt;?php post_class(); ?&gt;&gt;
-					&lt;?php if ( has_post_thumbnail() ) : ?&gt;
-						&lt;a href="&lt;?php the_permalink(); ?&gt;"&gt;
-							&lt;?php the_post_thumbnail( 'medium' ); ?&gt;
-						&lt;/a&gt;
-					&lt;?php endif; ?&gt;
-
-					&lt;h2&gt;&lt;a href="&lt;?php the_permalink(); ?&gt;"&gt;&lt;?php the_title(); ?&gt;&lt;/a&gt;&lt;/h2&gt;
-
-					&lt;div class="post-meta"&gt;
-						&lt;span class="author"&gt;&lt;?php the_author(); ?&gt;&lt;/span&gt;
-						&lt;span class="date"&gt;&lt;?php echo get_the_date(); ?&gt;&lt;/span&gt;
-						&lt;span class="reading-time"&gt;&lt;?php echo zoomblog_get_reading_time(); ?&gt;&lt;/span&gt;
-						&lt;?php echo zoomblog_get_bookmark_button(); ?&gt;
-					&lt;/div&gt;
-
-					&lt;?php the_excerpt(); ?&gt;
-				&lt;/article&gt;
-			&lt;?php endwhile; ?&gt;
-		&lt;/div&gt;
-	&lt;?php else : ?&gt;
-		&lt;p&gt;&lt;?php esc_html_e( 'No posts found.', 'zoomblog' ); ?&gt;&lt;/p&gt;
-	&lt;?php endif; ?&gt;
-&lt;/div&gt;
-
-&lt;?php get_footer(); ?&gt;
+get_header();
+$zb_cols = (int) zoomblog_get_option( 'archive_columns', 3 );
+?>
+<div class="zb-container">
+	<?php zoomblog_breadcrumb(); ?>
+	<div class="zb-layout">
+		<div class="zb-primary">
+			<?php if ( have_posts() ) : ?>
+				<div class="zb-grid zb-grid--<?php echo esc_attr( $zb_cols ); ?>">
+					<?php
+					while ( have_posts() ) :
+						the_post();
+						get_template_part( 'template-parts/card' );
+					endwhile;
+					?>
+				</div>
+				<?php zoomblog_pagination(); ?>
+			<?php else : ?>
+				<?php get_template_part( 'template-parts/none' ); ?>
+			<?php endif; ?>
+		</div>
+		<?php get_sidebar(); ?>
+	</div>
+</div>
+<?php
+get_footer();
