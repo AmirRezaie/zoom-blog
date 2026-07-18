@@ -1,0 +1,116 @@
+/* Base Styles */
+:root {
+  --color-primary: #0066cc;
+  --color-background: #ffffff;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.site-header {
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.site-branding h1,
+.site-branding p {
+  margin: 0;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 40px 0;
+}
+
+article {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+article img {
+  width: 100%;
+  height: auto;
+}
+
+article h2 {
+  font-size: 1.2rem;
+  margin: 1rem;
+}
+
+article .post-meta {
+  margin: 0 1rem 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+article .post-meta span {
+  margin-right: 1rem;
+}
+
+article .post-excerpt {
+  padding: 0 1rem 1rem;
+}
+
+.site-footer {
+  padding: 20px 0;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+/* RTL Support */
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+body.rtl .post-meta span {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/* Dark Mode */
+body.dark-mode {
+  --color-background: #1a1a1a;
+  --color-text: #f0f0f0;
+  --color-text-secondary: #aaaaaa;
+}
+
+body.dark-mode .site-header,
+body.dark-mode .site-footer {
+  border-color: #333;
+}
+
+body.dark-mode article {
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+}
+
+/* Reading Progress Bar */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 4px;
+  background-color: var(--color-primary);
+  z-index: 9999;
+}
