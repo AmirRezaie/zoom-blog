@@ -133,40 +133,6 @@ function zoomblog_save_post_meta( $post_id ) {
 }
 add_action( 'save_post', 'zoomblog_save_post_meta' );
 
-/**
- * Helper: get a post's subtitle.
- *
- * @param int|WP_Post|null $post Post.
- * @return string
- */
-function zoomblog_get_subtitle( $post = null ) {
-	$post = get_post( $post );
-	return $post ? (string) get_post_meta( $post->ID, '_zoomblog_subtitle', true ) : '';
-}
-
-/**
- * Helper: parsed sources list [ [title,url], ... ].
- *
- * @param int|WP_Post|null $post Post.
- * @return array<int,array{title:string,url:string}>
- */
-function zoomblog_get_sources( $post = null ) {
-	$post = get_post( $post );
-	if ( ! $post ) {
-		return array();
-	}
-	$raw = (string) get_post_meta( $post->ID, '_zoomblog_sources', true );
-	$out = array();
-	foreach ( preg_split( '/\r\n|\r|\n/', $raw ) as $line ) {
-		$line = trim( $line );
-		if ( '' === $line ) {
-			continue;
-		}
-		$parts = array_map( 'trim', explode( '|', $line, 2 ) );
-		$out[] = array(
-			'title' => $parts[0],
-			'url'   => isset( $parts[1] ) ? esc_url_raw( $parts[1] ) : '',
-		);
-	}
-	return $out;
-}
+// Note: the per-post getters (zoomblog_get_subtitle / zoomblog_get_sources)
+// live in inc/helpers.php because the front-end (single.php) needs them and
+// this admin file is only loaded in wp-admin.

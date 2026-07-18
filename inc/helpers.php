@@ -252,6 +252,46 @@ function zoomblog_primary_term( $taxonomy = 'category', $post = null ) {
 }
 
 /**
+ * Get a post's subtitle (set in the tidy post sidebar).
+ *
+ * Lives here (not the admin file) because the front-end needs it.
+ *
+ * @param int|WP_Post|null $post Post.
+ * @return string
+ */
+function zoomblog_get_subtitle( $post = null ) {
+	$post = get_post( $post );
+	return $post ? (string) get_post_meta( $post->ID, '_zoomblog_subtitle', true ) : '';
+}
+
+/**
+ * Parsed sources list [ ['title'=>, 'url'=>], ... ] from the post meta.
+ *
+ * @param int|WP_Post|null $post Post.
+ * @return array<int,array{title:string,url:string}>
+ */
+function zoomblog_get_sources( $post = null ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return array();
+	}
+	$raw = (string) get_post_meta( $post->ID, '_zoomblog_sources', true );
+	$out = array();
+	foreach ( preg_split( '/\r\n|\r|\n/', $raw ) as $line ) {
+		$line = trim( $line );
+		if ( '' === $line ) {
+			continue;
+		}
+		$parts = array_map( 'trim', explode( '|', $line, 2 ) );
+		$out[] = array(
+			'title' => $parts[0],
+			'url'   => isset( $parts[1] ) ? esc_url_raw( $parts[1] ) : '',
+		);
+	}
+	return $out;
+}
+
+/**
  * CSS aspect-ratio value from the card_ratio option.
  *
  * @return string
