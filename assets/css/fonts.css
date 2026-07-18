@@ -1,0 +1,39 @@
+/* Vazirmatn — local, no external requests. Variable font first, static
+   fallbacks for older browsers. font-display:swap avoids invisible text. */
+
+@font-face {
+	font-family: "Vazirmatn";
+	src: url("../fonts/vazirmatn/Vazirmatn-Variable.woff2") format("woff2-variations"),
+	     url("../fonts/vazirmatn/Vazirmatn-Variable.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Static fallbacks (browsers without variable-font support). */
+@supports not (font-variation-settings: normal) {
+	@font-face {
+		font-family: "Vazirmatn";
+		src: url("../fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+		font-weight: 400;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: "Vazirmatn";
+		src: url("../fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+		font-weight: 500;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: "Vazirmatn";
+		src: url("../fonts/vazirmatn/Vazirmatn-SemiBold.woff2") format("woff2");
+		font-weight: 600;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: "Vazirmatn";
+		src: url("../fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+		font-weight: 700;
+		font-display: swap;
+	}
+}

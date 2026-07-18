@@ -1,0 +1,65 @@
+/* =========================================================================
+   ZoomBlog — Reader Control Center + focus mode.
+   The panel writes CSS vars / classes onto <html> and the article shell.
+   ========================================================================= */
+
+/* Reader-adjustable variables (defaults inherit the theme). */
+.zb-has-reader .zb-content { font-size: var(--zb-reader-size, var(--zb-font-size)); line-height: var(--zb-reader-lh, var(--zb-line-height)); }
+.zb-has-reader .zb-article { max-width: var(--zb-reader-width, 100%); margin-inline: auto; }
+
+/* ---- Floating launcher -------------------------------------------------- */
+.zb-reader-fab {
+	position: fixed; inset-block-end: 24px; inset-inline-start: 24px; z-index: 900;
+	width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--zb-line);
+	background: var(--zb-card); color: var(--zb-ink); box-shadow: var(--zb-shadow-hover);
+	display: grid; place-items: center; font-size: 1.3rem;
+}
+.zb-reader-fab:hover { transform: translateY(-2px); }
+
+/* ---- Panel -------------------------------------------------------------- */
+.zb-reader-panel {
+	position: fixed; inset-block-end: 88px; inset-inline-start: 24px; z-index: 901; width: 300px; max-width: calc(100vw - 48px);
+	background: var(--zb-card); border: 1px solid var(--zb-line); border-radius: var(--zb-radius); box-shadow: var(--zb-shadow-hover);
+	padding: 18px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all var(--zb-transition);
+}
+.zb-reader-panel.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+.zb-reader-panel h4 { margin: 0 0 14px; font-size: 1rem; }
+.zb-reader-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.zb-reader-row > span { font-size: 0.88rem; color: var(--zb-muted); }
+
+/* Segmented control */
+.zb-seg { display: inline-flex; background: var(--zb-surface); border-radius: var(--zb-radius-pill); padding: 3px; }
+.zb-seg button { border: 0; background: none; padding: 6px 12px; border-radius: var(--zb-radius-pill); color: var(--zb-body); font-weight: 700; font-size: 0.85rem; }
+.zb-seg button.is-active { background: var(--zb-accent); color: #fff; }
+
+/* Theme swatches */
+.zb-theme-swatches { display: flex; gap: 8px; }
+.zb-theme-swatches button { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--zb-line-strong); cursor: pointer; }
+.zb-theme-swatches button.is-active { border-color: var(--zb-accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--zb-accent) 30%, transparent); }
+.zb-swatch-light { background: #ffffff; }
+.zb-swatch-dark { background: #0f1117; }
+.zb-swatch-sepia { background: #f6ecd9; }
+
+/* Toggles inside panel */
+.zb-reader-toggle { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+
+/* ---- Focus mode --------------------------------------------------------- */
+.zb-focus .zb-header, .zb-focus .zb-footer, .zb-focus .zb-sidebar,
+.zb-focus .zb-related, .zb-focus .zb-ad, .zb-focus .zb-comments,
+.zb-focus .zb-share, .zb-focus .zb-authorbox { display: none !important; }
+.zb-focus .zb-layout { grid-template-columns: minmax(0, 1fr); }
+.zb-focus .zb-article { max-width: 720px; margin-inline: auto; }
+
+/* Hidden sidebar toggle */
+.zb-hide-sidebar .zb-sidebar { display: none; }
+.zb-hide-sidebar .zb-layout { grid-template-columns: minmax(0, 1fr); }
+
+/* ---- Continue reading banner ------------------------------------------- */
+.zb-continue {
+	position: fixed; inset-block-end: 24px; inset-inline-end: 24px; z-index: 880; max-width: 320px;
+	background: var(--zb-card); border: 1px solid var(--zb-line); border-radius: var(--zb-radius);
+	box-shadow: var(--zb-shadow-hover); padding: 14px 16px; display: none;
+}
+.zb-continue.is-visible { display: block; }
+.zb-continue b { display: block; font-size: 0.9rem; margin-bottom: 8px; }
+.zb-continue__actions { display: flex; gap: 8px; }

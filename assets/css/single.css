@@ -1,0 +1,133 @@
+/* =========================================================================
+   ZoomBlog — single post: article, progress bar, meta, share, TOC, sources,
+   related, author box, trust layer, paywall, recommend.
+   ========================================================================= */
+
+/* ---- Reading progress bar ---------------------------------------------- */
+.zb-progress { position: fixed; inset-block-start: 0; inset-inline: 0; height: 3px; z-index: 9999; background: transparent; }
+.zb-progress__fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--zb-accent), var(--zb-accent-2)); transition: width 80ms linear; }
+
+/* ---- Article shell ------------------------------------------------------ */
+.zb-article { max-width: 100%; }
+.zb-article__header { margin-bottom: 22px; }
+.zb-article__title { font-size: clamp(1.7rem, 1.2rem + 2.2vw, 2.7rem); line-height: 1.35; margin: 8px 0 12px; }
+.zb-article__subtitle { font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.3rem); color: var(--zb-muted); font-weight: 500; margin: 0 0 18px; line-height: 1.7; }
+.zb-article__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding-block: 14px; border-block: 1px solid var(--zb-line); }
+.zb-article__author { display: flex; align-items: center; gap: 10px; }
+.zb-article__author img { width: 40px; height: 40px; border-radius: 50%; }
+.zb-article__author b { color: var(--zb-ink); font-size: 0.95rem; }
+.zb-article__author small { color: var(--zb-muted); }
+.zb-article__actions { margin-inline-start: auto; display: flex; align-items: center; gap: 8px; }
+
+.zb-article__figure { margin: 22px 0; border-radius: var(--zb-radius); overflow: hidden; }
+.zb-article__figure img { width: 100%; }
+.zb-article__figure figcaption { font-size: 0.82rem; color: var(--zb-muted); text-align: center; padding-top: 8px; }
+
+/* ---- Content typography (Persian-tuned) --------------------------------- */
+.zb-content { font-size: var(--zb-font-size); line-height: var(--zb-line-height); }
+.zb-content > * { margin-bottom: 1.2em; }
+.zb-content h2 { font-size: 1.6em; margin-top: 1.8em; scroll-margin-top: 90px; }
+.zb-content h3 { font-size: 1.3em; margin-top: 1.5em; scroll-margin-top: 90px; }
+.zb-content p { text-align: justify; text-justify: inter-word; }
+.zb-content img { border-radius: var(--zb-radius-sm); margin-inline: auto; }
+.zb-content a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--zb-accent) 40%, transparent); }
+.zb-content blockquote {
+	margin: 1.5em 0; padding: 4px 20px; border-inline-start: 4px solid var(--zb-accent);
+	background: var(--zb-surface); border-radius: 0 var(--zb-radius-sm) var(--zb-radius-sm) 0; color: var(--zb-ink);
+}
+.zb-content ul, .zb-content ol { padding-inline-start: 1.6em; }
+.zb-content li { margin-bottom: 0.5em; }
+.zb-content pre { background: #0d1117; color: #e6edf3; padding: 16px 20px; border-radius: var(--zb-radius-sm); overflow-x: auto; direction: ltr; text-align: left; }
+.zb-content code { direction: ltr; unicode-bidi: embed; }
+.zb-content table { width: 100%; border-collapse: collapse; }
+.zb-content th, .zb-content td { border: 1px solid var(--zb-line); padding: 10px 12px; }
+.zb-content th { background: var(--zb-surface); }
+
+/* ---- Trust layer -------------------------------------------------------- */
+.zb-old-notice, .zb-disclosure {
+	display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: var(--zb-radius-sm);
+	font-size: 0.9rem; margin: 18px 0;
+}
+.zb-old-notice { background: color-mix(in srgb, #d97706 12%, var(--zb-surface)); color: var(--zb-ink); border: 1px solid color-mix(in srgb, #d97706 30%, transparent); }
+.zb-disclosure { background: color-mix(in srgb, var(--zb-accent) 10%, var(--zb-surface)); border: 1px solid color-mix(in srgb, var(--zb-accent) 25%, transparent); }
+
+/* ---- Share bar ---------------------------------------------------------- */
+.zb-share { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.zb-share__btn {
+	display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--zb-radius-pill);
+	border: 1px solid var(--zb-line); background: var(--zb-surface); color: var(--zb-body); font-size: 0.85rem; font-weight: 600;
+}
+.zb-share__btn:hover { border-color: var(--zb-accent); color: var(--zb-accent); }
+
+/* Like / bookmark / follow buttons */
+.zb-like, .zb-bookmark, .zb-follow {
+	display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--zb-radius-pill);
+	border: 1px solid var(--zb-line); background: var(--zb-surface); color: var(--zb-body); font-weight: 600; font-size: 0.85rem;
+	transition: all var(--zb-transition);
+}
+.zb-like.is-active { color: var(--zb-accent-2); border-color: var(--zb-accent-2); background: color-mix(in srgb, var(--zb-accent-2) 12%, transparent); }
+.zb-bookmark.is-active { color: var(--zb-accent); border-color: var(--zb-accent); }
+.zb-follow.is-active { background: var(--zb-accent); border-color: var(--zb-accent); color: #fff; }
+
+/* ---- TOC ---------------------------------------------------------------- */
+.zb-toc { background: var(--zb-card); border: 1px solid var(--zb-line); border-radius: var(--zb-radius); padding: 16px 18px; margin: 22px 0; }
+.zb-toc__toggle { width: 100%; text-align: start; background: none; border: 0; font-weight: 800; font-size: 1rem; color: var(--zb-ink); display: flex; align-items: center; justify-content: space-between; }
+.zb-toc__toggle::after { content: "▾"; transition: transform var(--zb-transition); }
+.zb-toc__toggle[aria-expanded="false"]::after { transform: rotate(-90deg); }
+.zb-toc__list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; }
+.zb-toc__list[hidden] { display: none; }
+.zb-toc__item a { color: var(--zb-body); font-size: 0.92rem; display: block; padding: 4px 8px; border-radius: 6px; border-inline-start: 2px solid transparent; }
+.zb-toc__item a:hover, .zb-toc__item.is-active a { color: var(--zb-accent); background: var(--zb-surface); border-inline-start-color: var(--zb-accent); }
+.zb-toc__item--h3 a { padding-inline-start: 22px; font-size: 0.88rem; }
+
+/* Sidebar TOC (sticky) */
+.zb-sidebar .zb-toc { position: sticky; top: 90px; }
+
+/* ---- Sources ------------------------------------------------------------ */
+.zb-sources { margin: 30px 0; padding: 18px 20px; background: var(--zb-surface); border-radius: var(--zb-radius); }
+.zb-sources h3 { font-size: 1.05rem; margin-bottom: 10px; }
+.zb-sources ol { margin: 0; padding-inline-start: 1.4em; }
+.zb-sources li { margin-bottom: 6px; font-size: 0.9rem; }
+
+/* ---- Recommend ---------------------------------------------------------- */
+.zb-recommend { margin: 30px 0; padding: 20px; border: 1px solid var(--zb-line); border-radius: var(--zb-radius); background: var(--zb-card); }
+.zb-recommend__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.zb-recommend__percent { color: var(--zb-accent); font-size: 1.3rem; }
+.zb-recommend__stat small { color: var(--zb-muted); margin-inline-start: 6px; }
+.zb-recommend__bar { height: 8px; border-radius: 999px; background: var(--zb-surface-2); overflow: hidden; }
+.zb-recommend__bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--zb-accent), var(--zb-accent-2)); }
+.zb-recommend__actions { display: flex; gap: 10px; margin-top: 14px; }
+.zb-recommend__btn { flex: 1; padding: 10px; border-radius: var(--zb-radius-sm); border: 1px solid var(--zb-line-strong); background: var(--zb-surface); color: var(--zb-ink); font-weight: 700; }
+.zb-recommend__btn:hover { border-color: var(--zb-accent); color: var(--zb-accent); }
+
+/* ---- Author box --------------------------------------------------------- */
+.zb-authorbox { display: flex; gap: 18px; align-items: flex-start; margin: 34px 0; padding: 22px; background: var(--zb-card); border: 1px solid var(--zb-line); border-radius: var(--zb-radius); }
+.zb-authorbox img { width: 72px; height: 72px; border-radius: 50%; flex: none; }
+.zb-authorbox__name { font-size: 1.15rem; margin: 0 0 4px; }
+.zb-authorbox__bio { color: var(--zb-muted); font-size: 0.92rem; margin: 0 0 12px; }
+.zb-authorbox__foot { display: flex; gap: 10px; align-items: center; }
+
+/* ---- Related ------------------------------------------------------------ */
+.zb-related { margin-top: 44px; }
+
+/* ---- Paywall ------------------------------------------------------------ */
+.zb-paywall { position: relative; margin-top: -80px; padding-top: 80px; text-align: center; }
+.zb-paywall__fade { position: absolute; inset-block-start: 0; inset-inline: 0; height: 80px; background: linear-gradient(to bottom, transparent, var(--zb-bg)); }
+.zb-paywall__box { background: var(--zb-card); border: 1px solid var(--zb-line); border-radius: var(--zb-radius); padding: 30px; }
+.zb-paywall__icon { font-size: 2rem; }
+.zb-paywall__msg { font-weight: 700; color: var(--zb-ink); margin: 10px 0 18px; }
+
+/* ---- Comments ----------------------------------------------------------- */
+.zb-comments { margin-top: 44px; }
+.zb-comments .comment-list { list-style: none; margin: 0; padding: 0; }
+.zb-comments .comment-body { padding: 16px; border: 1px solid var(--zb-line); border-radius: var(--zb-radius); margin-bottom: 14px; background: var(--zb-card); }
+.zb-comments .children { list-style: none; margin-inline-start: 26px; padding-inline-start: 14px; border-inline-start: 2px solid var(--zb-line); }
+.zb-comments .comment-form input[type="text"], .zb-comments .comment-form input[type="email"], .zb-comments .comment-form input[type="url"], .zb-comments .comment-form textarea {
+	width: 100%; padding: 12px 14px; border: 1px solid var(--zb-line-strong); border-radius: var(--zb-radius-sm); background: var(--zb-surface); color: var(--zb-ink); font: inherit; margin-bottom: 12px;
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+@media (max-width: 620px) {
+	.zb-article__actions { margin-inline-start: 0; width: 100%; }
+	.zb-authorbox { flex-direction: column; text-align: center; align-items: center; }
+}
