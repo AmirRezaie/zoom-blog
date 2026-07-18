@@ -6,8 +6,8 @@
 
 /* ---- Design tokens (light) ---------------------------------------------- */
 :root {
-	--zb-accent: #2f6bff;
-	--zb-accent-2: #ff4d6d;
+	--zb-accent: #eb2027;
+	--zb-accent-2: #ff5a5f;
 	--zb-container: 1200px;
 	--zb-font-size: 17px;
 	--zb-line-height: 1.85;
@@ -130,7 +130,7 @@ hr { border: 0; border-top: 1px solid var(--zb-line); margin: 2rem 0; }
 .zb-main { display: block; padding-block: clamp(24px, 4vw, 48px); }
 .zb-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: clamp(24px, 4vw, 48px); align-items: start; }
 .zb-layout--full { grid-template-columns: minmax(0, 1fr); }
-.zb-sidebar { position: sticky; top: 90px; display: grid; gap: var(--zb-gap); }
+.zb-sidebar { position: sticky; top: 118px; display: grid; gap: var(--zb-gap); }
 
 .screen-reader-text {
 	position: absolute !important; clip: rect(1px, 1px, 1px, 1px);
@@ -199,6 +199,16 @@ hr { border: 0; border-top: 1px solid var(--zb-line); margin: 2rem 0; }
 /* Mobile menu toggle + drawer */
 .zb-burger { display: none; }
 .zb-drawer { display: none; }
+
+/* ---- Category bar (Zoomit-style) --------------------------------------- */
+.zb-catbar { border-top: 1px solid var(--zb-line); background: var(--zb-bg); }
+.zb-catbar__nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.zb-catbar__nav::-webkit-scrollbar { display: none; }
+.zb-catbar__nav a { white-space: nowrap; padding: 11px 13px; font-size: 0.9rem; font-weight: 600; color: var(--zb-body); position: relative; }
+.zb-catbar__nav a:hover { color: var(--zb-accent); }
+.zb-catbar__nav a::after { content: ""; position: absolute; inset-inline: 12px; inset-block-end: 0; height: 2px; background: var(--zb-accent); transform: scaleX(0); transition: transform var(--zb-transition); }
+.zb-catbar__nav a:hover::after { transform: scaleX(1); }
+.zb-catbar__home { color: var(--zb-accent) !important; }
 
 /* ---- Breadcrumb --------------------------------------------------------- */
 .zb-breadcrumb { font-size: 0.85rem; color: var(--zb-muted); margin-block: 4px 16px; }

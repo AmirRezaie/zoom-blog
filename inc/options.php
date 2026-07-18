@@ -20,9 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function zoomblog_default_options() {
 	$defaults = array(
-		// Brand identity.
-		'accent_color'        => '#2f6bff',
-		'accent_color_2'      => '#ff4d6d',
+		// Brand identity (Zoomit-style red).
+		'accent_color'        => '#eb2027',
+		'accent_color_2'      => '#ff5a5f',
 		'container_width'     => 1200,
 		'logo_max_height'     => 40,
 

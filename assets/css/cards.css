@@ -36,8 +36,10 @@
 	width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%;
 	background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 1rem;
 }
-.zb-card__body { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px 18px; flex: 1; }
-.zb-card__title { font-size: 1.12rem; line-height: 1.55; margin: 0; font-weight: 700; }
+.zb-card__body { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px 16px; flex: 1; }
+.zb-card__cat-text { align-self: flex-start; font-size: 0.78rem; font-weight: 700; color: var(--zb-accent); }
+.zb-card__cat-text:hover { color: var(--zb-accent-2); }
+.zb-card__title { font-size: 1.08rem; line-height: 1.6; margin: 0; font-weight: 700; }
 .zb-card__title a { color: var(--zb-ink); }
 .zb-card__title a:hover { color: var(--zb-accent); }
 .zb-card__excerpt { color: var(--zb-muted); font-size: 0.92rem; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

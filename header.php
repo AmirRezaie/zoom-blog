@@ -96,6 +96,7 @@ if ( ! zoomblog_elementor_has_location( 'header' ) ) :
 			<?php endif; ?>
 		</div>
 
+		<?php get_template_part( 'template-parts/catbar' ); ?>
 		<?php get_template_part( 'template-parts/breaking' ); ?>
 	</header>
 

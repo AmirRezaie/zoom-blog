@@ -26,8 +26,8 @@
 /* ---- Content typography (Persian-tuned) --------------------------------- */
 .zb-content { font-size: var(--zb-font-size); line-height: var(--zb-line-height); }
 .zb-content > * { margin-bottom: 1.2em; }
-.zb-content h2 { font-size: 1.6em; margin-top: 1.8em; scroll-margin-top: 90px; }
-.zb-content h3 { font-size: 1.3em; margin-top: 1.5em; scroll-margin-top: 90px; }
+.zb-content h2 { font-size: 1.6em; margin-top: 1.8em; scroll-margin-top: 118px; }
+.zb-content h3 { font-size: 1.3em; margin-top: 1.5em; scroll-margin-top: 118px; }
 .zb-content p { text-align: justify; text-justify: inter-word; }
 .zb-content img { border-radius: var(--zb-radius-sm); margin-inline: auto; }
 .zb-content a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--zb-accent) 40%, transparent); }
@@ -81,7 +81,7 @@
 .zb-toc__item--h3 a { padding-inline-start: 22px; font-size: 0.88rem; }
 
 /* Sidebar TOC (sticky) */
-.zb-sidebar .zb-toc { position: sticky; top: 90px; }
+.zb-sidebar .zb-toc { position: sticky; top: 118px; }
 
 /* ---- Sources ------------------------------------------------------------ */
 .zb-sources { margin: 30px 0; padding: 18px 20px; background: var(--zb-surface); border-radius: var(--zb-radius); }

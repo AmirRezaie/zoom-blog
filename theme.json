@@ -14,9 +14,9 @@
 			"custom": true,
 			"customDuotone": false,
 			"palette": [
-				{ "slug": "primary", "color": "#2f6bff", "name": "Primary" },
-				{ "slug": "primary-dark", "color": "#1e4fd6", "name": "Primary Dark" },
-				{ "slug": "accent", "color": "#ff4d6d", "name": "Accent" },
+				{ "slug": "primary", "color": "#eb2027", "name": "Primary" },
+				{ "slug": "primary-dark", "color": "#c1121f", "name": "Primary Dark" },
+				{ "slug": "accent", "color": "#ff5a5f", "name": "Accent" },
 				{ "slug": "ink", "color": "#14161c", "name": "Ink" },
 				{ "slug": "body", "color": "#2b2f3a", "name": "Body Text" },
 				{ "slug": "muted", "color": "#6b7280", "name": "Muted" },
