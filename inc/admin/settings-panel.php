@@ -60,6 +60,15 @@ function zoomblog_handle_settings_save() {
 		return;
 	}
 
+	// Create sample content on demand (idempotent).
+	if ( ! empty( $_POST['zoomblog_seed_samples'] ) ) {
+		if ( function_exists( 'zoomblog_seed_demo_content' ) ) {
+			zoomblog_seed_demo_content( get_option( 'zoomblog_active_demo', 'tech' ) );
+			add_settings_error( 'zoomblog', 'seeded', __( 'دسته‌ها و نوشته‌های نمونه ساخته شدند. صفحهٔ اصلی را ببینید.', 'zoomblog' ), 'updated' );
+		}
+		return;
+	}
+
 	$incoming = isset( $_POST['zoomblog_options'] ) ? (array) wp_unslash( $_POST['zoomblog_options'] ) : array();
 	$clean    = zoomblog_sanitize_settings( $incoming );
 
@@ -233,6 +242,7 @@ function zoomblog_render_settings_page() {
 
 				<p class="zb-admin__actions">
 					<button type="submit" class="button button-primary button-hero"><?php esc_html_e( 'ذخیرهٔ تنظیمات', 'zoomblog' ); ?></button>
+					<button type="submit" name="zoomblog_seed_samples" value="1" class="button"><?php esc_html_e( 'ساخت محتوای نمونه', 'zoomblog' ); ?></button>
 					<a class="button" href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php esc_html_e( 'مشاهدهٔ سایت', 'zoomblog' ); ?></a>
 				</p>
 				<p class="zb-admin__noresults" hidden><?php esc_html_e( 'موردی برای این جست‌وجو پیدا نشد.', 'zoomblog' ); ?></p>

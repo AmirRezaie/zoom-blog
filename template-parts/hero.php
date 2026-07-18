@@ -40,7 +40,7 @@ $GLOBALS['zoomblog_shown'] = array_merge(
 ?>
 <section class="zb-hero">
 	<a class="zb-hero__main" href="<?php echo esc_url( get_permalink( $zb_main ) ); ?>">
-		<?php echo zoomblog_thumbnail( $zb_main, 'zoomblog-hero', array( 'fetchpriority' => 'high' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo zoomblog_media_or_placeholder( $zb_main, 'zoomblog-hero', array( 'fetchpriority' => 'high' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<div class="zb-hero__overlay">
 			<?php
 			$zb_cat = zoomblog_primary_term( 'category', $zb_main );
@@ -60,7 +60,7 @@ $GLOBALS['zoomblog_shown'] = array_merge(
 		<?php foreach ( $zb_posts as $zb_sp ) : ?>
 			<article class="zb-card zb-card--row">
 				<a class="zb-card__media" href="<?php echo esc_url( get_permalink( $zb_sp ) ); ?>">
-					<?php echo zoomblog_thumbnail( $zb_sp, 'zoomblog-card-sm', array( 'loading' => 'lazy' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo zoomblog_media_or_placeholder( $zb_sp, 'zoomblog-card-sm', array( 'loading' => 'lazy' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</a>
 				<div class="zb-card__body">
 					<h3 class="zb-card__title"><a href="<?php echo esc_url( get_permalink( $zb_sp ) ); ?>"><?php echo esc_html( get_the_title( $zb_sp ) ); ?></a></h3>

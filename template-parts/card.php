@@ -29,10 +29,7 @@ $zb_icons = array( 'podcast' => '🎙', 'video' => '▶' );
 <article <?php post_class( $zb_classes ); ?>>
 	<a class="zb-card__media" href="<?php the_permalink(); ?>" aria-label="<?php the_title_attribute(); ?>" style="--zb-card-ratio:<?php echo esc_attr( zoomblog_card_ratio_css() ); ?>">
 		<?php
-		$zb_thumb = zoomblog_thumbnail( null, $zb_size, array( 'loading' => 'lazy' ) );
-		if ( $zb_thumb ) {
-			echo $zb_thumb; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		}
+		echo zoomblog_media_or_placeholder( null, $zb_size, array( 'loading' => 'lazy' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		if ( $zb_cat ) {
 			printf( '<span class="zb-card__cat">%s</span>', esc_html( $zb_cat->name ) );
 		}

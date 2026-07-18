@@ -186,6 +186,34 @@ function zoomblog_thumbnail( $post = null, $size = 'zoomblog-card', $attr = arra
 }
 
 /**
+ * Featured image, or a graceful gradient placeholder with the title initial.
+ *
+ * Keeps cards/hero from showing an empty box when a post has no thumbnail.
+ * The hue is derived deterministically from the title so each post keeps a
+ * stable colour.
+ *
+ * @param int|WP_Post|null $post Post.
+ * @param string           $size Image size.
+ * @param array            $attr Extra <img> attributes.
+ * @return string HTML.
+ */
+function zoomblog_media_or_placeholder( $post = null, $size = 'zoomblog-card', $attr = array() ) {
+	$thumb = zoomblog_thumbnail( $post, $size, $attr );
+	if ( $thumb ) {
+		return $thumb;
+	}
+	$post  = get_post( $post );
+	$title = $post ? trim( wp_strip_all_tags( get_the_title( $post ) ) ) : '';
+	$initial = '' !== $title ? mb_substr( $title, 0, 1 ) : '#';
+	$hue   = '' !== $title ? ( (int) sprintf( '%u', crc32( $title ) ) % 360 ) : 210;
+	return sprintf(
+		'<span class="zb-placeholder" style="--zb-ph-hue:%1$d;" aria-hidden="true"><span class="zb-placeholder__letter">%2$s</span></span>',
+		$hue,
+		esc_html( $initial )
+	);
+}
+
+/**
  * Get the primary term (Yoast/Rank Math primary aware) for a taxonomy.
  *
  * @param string           $taxonomy Taxonomy.

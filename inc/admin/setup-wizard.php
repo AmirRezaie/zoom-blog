@@ -142,6 +142,92 @@ function zoomblog_seed_demo_content( $demo ) {
 			wp_insert_term( $name, 'category' );
 		}
 	}
+
+	// Seed a handful of sample posts so the homepage looks complete.
+	zoomblog_seed_demo_posts( $demo );
+}
+
+/**
+ * Sample post body with a few headings (so the TOC has something to show).
+ *
+ * @param string $lead Intro sentence.
+ * @return string
+ */
+function zoomblog_demo_body( $lead ) {
+	return
+		'<p>' . esc_html( $lead ) . ' این متن نمونه است و می‌توانید آن را با محتوای واقعی خود جایگزین کنید.</p>' .
+		'<h2>مقدمه</h2>' .
+		'<p>فناوری و رسانه با سرعت زیادی در حال تغییر هستند و درک درست آن‌ها به تصمیم‌گیری بهتر کمک می‌کند. در ادامه مهم‌ترین نکته‌ها را مرور می‌کنیم.</p>' .
+		'<blockquote>کیفیت محتوا مهم‌تر از کمیت آن است؛ یک نوشتهٔ دقیق ارزش ده نوشتهٔ سطحی را دارد.</blockquote>' .
+		'<h2>نکته‌های کلیدی</h2>' .
+		'<p>ابتدا باید نیاز واقعی خود را بشناسیم، سپس گزینه‌های موجود را با هم مقایسه کنیم و در نهایت انتخاب آگاهانه داشته باشیم. این مسیر ساده اما اثرگذار است.</p>' .
+		'<h3>جمع‌بندی</h3>' .
+		'<p>در مجموع، انتخاب درست به اولویت‌های شما بستگی دارد. امیدواریم این راهنما برایتان مفید بوده باشد و در ادامه سراغ نمونه‌های بیشتری برویم.</p>';
+}
+
+/**
+ * Create sample posts once (idempotent via an option flag).
+ *
+ * @param string $demo Demo slug.
+ */
+function zoomblog_seed_demo_posts( $demo ) {
+	if ( get_option( 'zoomblog_sample_posts_seeded' ) ) {
+		return;
+	}
+
+	$terms   = get_terms( array( 'taxonomy' => 'category', 'hide_empty' => false ) );
+	$cat_ids = ( $terms && ! is_wp_error( $terms ) ) ? wp_list_pluck( $terms, 'term_id' ) : array();
+	if ( empty( $cat_ids ) ) {
+		$cat_ids = array( (int) get_option( 'default_category' ) );
+	}
+
+	$author = get_current_user_id();
+
+	// title, excerpt/lead, content type, editor pick, breaking.
+	$samples = array(
+		array( 'هوش مصنوعی چگونه آیندهٔ کار را دگرگون می‌کند', 'نگاهی به تأثیر هوش مصنوعی بر مشاغل و مهارت‌های آینده.', 'analysis', true, false ),
+		array( 'بررسی کامل پرچم‌دار تازه‌ی بازار', 'نقد و بررسی سخت‌افزار، دوربین و باتری این گوشی پرچم‌دار.', 'review', true, false ),
+		array( 'بهترین لپ‌تاپ‌ها برای برنامه‌نویسی در ۱۴۰۵', 'راهنمای انتخاب لپ‌تاپ مناسب توسعه‌دهندگان با هر بودجه.', 'article', true, false ),
+		array( 'راهنمای خرید هدفون بی‌سیم', 'هر آنچه پیش از خرید هدفون بی‌سیم باید بدانید.', 'article', true, false ),
+		array( 'خبر فوری: عرضهٔ نسل تازهٔ پردازنده‌ها', 'نسل جدید پردازنده‌ها با جهش چشمگیر در کارایی معرفی شد.', 'news', false, true ),
+		array( 'ده افزونهٔ ضروری برای افزایش بهره‌وری', 'فهرستی از ابزارهایی که جریان کاری شما را سریع‌تر می‌کنند.', 'article', false, false ),
+		array( 'چرا حریم خصوصی داده‌ها اهمیت دارد', 'دیدگاهی دربارهٔ ارزش داده‌های شخصی در دنیای امروز.', 'opinion', false, false ),
+		array( 'مقایسهٔ سرویس‌های ابری محبوب', 'کدام سرویس ابری برای پروژهٔ شما مناسب‌تر است؟', 'analysis', false, false ),
+	);
+
+	$i = 0;
+	foreach ( $samples as $s ) {
+		list( $title, $lead, $type, $pick, $breaking ) = $s;
+
+		$post_id = wp_insert_post( array(
+			'post_title'    => $title,
+			'post_content'  => zoomblog_demo_body( $lead ),
+			'post_excerpt'  => $lead,
+			'post_status'   => 'publish',
+			'post_type'     => 'post',
+			'post_author'   => $author,
+			'post_category' => array( $cat_ids[ $i % count( $cat_ids ) ] ),
+			'post_date'     => gmdate( 'Y-m-d H:i:s', time() - ( $i * 6 * HOUR_IN_SECONDS ) ),
+		), true );
+
+		if ( $post_id && ! is_wp_error( $post_id ) ) {
+			update_post_meta( $post_id, '_zoomblog_content_type', $type );
+			update_post_meta( $post_id, '_zoomblog_views', wp_rand( 400, 9000 ) );
+			update_post_meta( $post_id, '_zoomblog_likes', wp_rand( 5, 240 ) );
+			update_post_meta( $post_id, '_zoomblog_recommend_up', wp_rand( 20, 120 ) );
+			update_post_meta( $post_id, '_zoomblog_recommend_down', wp_rand( 2, 30 ) );
+			if ( $pick ) {
+				update_post_meta( $post_id, '_zoomblog_editor_pick', '1' );
+			}
+			if ( $breaking ) {
+				update_post_meta( $post_id, '_zoomblog_breaking', '1' );
+			}
+			update_post_meta( $post_id, '_zoomblog_sample', '1' );
+		}
+		$i++;
+	}
+
+	update_option( 'zoomblog_sample_posts_seeded', 1 );
 }
 
 /**
